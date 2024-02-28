@@ -2,7 +2,10 @@ import React, { ReactNode, ReactElement, cloneElement, JSXElementConstructor } f
 
 interface MessageParserProps {
   children: ReactNode;
-  actions: any; // Adjust the type according to your needs
+  actions: Actions; // Adjust the type according to your needs
+}
+interface Actions{
+  handleHello: ()=>void
 }
 
 const MessageParser: React.FC<MessageParserProps> = ({ children, actions }) => {
@@ -17,7 +20,7 @@ const MessageParser: React.FC<MessageParserProps> = ({ children, actions }) => {
     <div>
       {React.Children.map(children, (child: ReactNode) => {
         if (React.isValidElement(child)) {
-          return cloneElement(child as ReactElement<any, string | JSXElementConstructor<any>>, {
+          return cloneElement(child as ReactElement<any, string | JSXElementConstructor<ReactNode>>, {
             parse: parse,
             actions: {},
           });
