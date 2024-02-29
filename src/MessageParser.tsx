@@ -5,13 +5,13 @@ interface MessageParserProps {
   actions: Actions; // Adjust the type according to your needs
 }
 interface Actions{
-  handleHello: ()=>void
+  updateState: ()=>void
 }
 
 const MessageParser: React.FC<MessageParserProps> = ({ children, actions }) => {
   const parse = (message: string) => {
     if(message.includes("hello")){
-      actions.handleHello()
+      
     }
     
   };

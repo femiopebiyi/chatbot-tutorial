@@ -7,16 +7,20 @@ interface ActionProviderProps {
 }
 interface Message {
   messages: string;
-  botMessage: string
 }
 
 const ActionProvider: React.FC<ActionProviderProps> = ({ createChatBotMessage, setState, children }) => {
-  const handleHello = () => {
-    const botMessage = createChatBotMessage('Hello. Nice to meet you.');
+
+  const initialAction = ()=>{
+    const message = createChatBotMessage("just type in your name")
+    updateState(message)
+  }
+
+  const updateState = (message: string) => {
 
     setState((prev: Message) => ({
       ...prev,
-      messages: [...prev.messages, botMessage],
+      messages: [...prev.messages, message],
     }));
   };
 
@@ -26,7 +30,7 @@ const ActionProvider: React.FC<ActionProviderProps> = ({ createChatBotMessage, s
       {React.Children.map(children, (child) => {
         return React.cloneElement(child as React.ReactElement<any>, {
           actions: {
-            handleHello,
+            initialAction,
           },
         });
       })}
