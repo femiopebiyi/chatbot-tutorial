@@ -1,36 +1,47 @@
-import React, { ReactNode } from 'react';
 
-interface ActionProviderProps {
-  createChatBotMessage: (message: string) => any; // Adjust the type according to your needs
-  setState: React.Dispatch<React.SetStateAction<any>>; // Adjust the type according to your needs
-  children: ReactNode;
+import React, { ReactElement } from 'react';
+
+
+
+type Action = {
+  createChatBotMessage: any;
+  setState: any
+  children: ReactElement
+
 }
-interface Message {
-  messages: string;
-}
 
-const ActionProvider: React.FC<ActionProviderProps> = ({ createChatBotMessage, setState, children }) => {
+const ActionProvider = ({ createChatBotMessage, setState, children }: Action) => {
 
-  const initialAction = ()=>{
-    const message = createChatBotMessage("just type in your name")
-    updateState(message)
-  }
+  const handleHello = () => {
+    const botMessage = createChatBotMessage('Hello. Nice to meet you.');
 
-  const updateState = (message: string) => {
-
-    setState((prev: Message) => ({
+    setState((prev: any) => ({
       ...prev,
-      messages: [...prev.messages, message],
+      messages: [...prev.messages, botMessage],
     }));
   };
 
-  // Put the handleHello function in the actions object to pass to the MessageParser
+  const handleDog = () => {
+    const botMessage = createChatBotMessage(
+      "Here's a nice dog picture for you!",
+      {
+        widget: 'dogPicture',
+      }
+    );
+
+    setState((prev: any) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
+
   return (
     <div>
       {React.Children.map(children, (child) => {
-        return React.cloneElement(child as React.ReactElement<any>, {
+        return React.cloneElement(child, {
           actions: {
-            initialAction,
+            handleHello,
+            handleDog
           },
         });
       })}

@@ -1,31 +1,31 @@
-import React, { ReactNode, ReactElement, cloneElement, JSXElementConstructor } from 'react';
 
-interface MessageParserProps {
-  children: ReactNode;
-  actions: Actions; // Adjust the type according to your needs
-}
-interface Actions{
-  updateState: ()=>void
+import React, { ReactElement } from 'react';
+
+type Message = {
+  children: ReactElement;
+  actions: {
+    handleHello: ()=>void
+    handleDog: ()=> void
+  }
 }
 
-const MessageParser: React.FC<MessageParserProps> = ({ children, actions }) => {
+const MessageParser = ({ children, actions }: Message) => {
   const parse = (message: string) => {
-    if(message.includes("hello")){
-      
+    if(message.includes("hi" || "hello" || "ohayo")){
+      actions.handleHello()
     }
-    
+    if (message.includes('dog')) {
+      actions.handleDog();
+    }
   };
 
   return (
     <div>
-      {React.Children.map(children, (child: ReactNode) => {
-        if (React.isValidElement(child)) {
-          return cloneElement(child as ReactElement<any, string | JSXElementConstructor<ReactNode>>, {
-            parse: parse,
-            actions: {},
-          });
-        }
-        return child;
+      {React.Children.map(children, (child) => {
+        return React.cloneElement(child, {
+          parse: parse,
+          actions,
+        });
       })}
     </div>
   );
