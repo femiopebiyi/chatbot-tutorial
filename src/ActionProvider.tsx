@@ -2,7 +2,6 @@
 import React, { ReactElement } from 'react';
 
 
-
 type Action = {
   createChatBotMessage: any;
   setState: any
@@ -26,9 +25,11 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: Action) =>
       "Here's a nice dog picture for you!",
       {
         widget: 'dogPicture',
+        // delay: 1000
       }
     );
 
+      
     setState((prev: any) => ({
       ...prev,
       messages: [...prev.messages, botMessage],

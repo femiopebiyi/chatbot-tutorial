@@ -4,6 +4,8 @@ import DogPicture from './components/DogPicture';
 
 const botName = 'FemiBot';
 
+
+
 const config = {
   initialMessages: [createChatBotMessage(`Hi! I'm ${botName}`, {})],
   widgets: [
